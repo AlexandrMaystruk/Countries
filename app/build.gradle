@@ -1,0 +1,183 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.apollographql.apollo'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "30.0.0"
+
+    defaultConfig {
+        applicationId "com.jay.countries"
+        minSdkVersion 18
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/databaseSchema".toString()]
+            }
+        }
+    }
+
+    buildFeatures{
+        dataBinding = true
+        viewBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    final String packageSuffixCommon = "com.jay.countries"
+
+    // for each of the flavours should be added configuration for signingConfig
+    flavorDimensions "default"
+
+    productFlavors {
+        prod {
+            applicationId = "$packageSuffixCommon"
+            signingConfig signingConfigs.release
+            versionCode = 1
+            versionName = "1.0.0"
+        }
+    }
+
+    sourceSets {
+        //This will give access to the database schema folder for testing
+        androidTest.assets.srcDirs += files("$projectDir/databaseSchema".toString())
+
+        prod {
+            res.srcDirs =
+                    [
+                            file("src/main/res/layouts/").listFiles(),
+                            'src/main/res/layouts/activities',
+                            'src/main/res'
+                    ]
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta8'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
+
+    def apollo_ver = '2.0.0'
+    implementation("com.apollographql.apollo:apollo-runtime:$apollo_ver")
+    implementation "com.apollographql.apollo:apollo-android-support:$apollo_ver"
+
+    //Rx
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+    implementation 'com.jakewharton.rxbinding:rxbinding-kotlin:1.0.1'
+
+    //Retrofit
+    def retrofit_ver = '2.9.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_ver"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_ver"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_ver"
+
+    // Lifecycle
+    def lifecycle_ver = '2.2.0'
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_ver"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_ver"
+
+    //Dagger
+    def dagger_ver = '2.26'
+    api "com.google.dagger:dagger:$dagger_ver"
+    api "com.google.dagger:dagger-android:$dagger_ver"
+    api "com.google.dagger:dagger-android-support:$dagger_ver"
+    kapt "com.google.dagger:dagger-compiler:$dagger_ver"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_ver"
+
+    //Room
+    def room_ver = '1.1.1'
+    implementation "android.arch.persistence.room:runtime:$room_ver"
+    kapt "android.arch.persistence.room:compiler:$room_ver"
+    implementation "android.arch.persistence.room:rxjava2:$room_ver"
+    testImplementation "android.arch.persistence.room:testing:$room_ver"
+
+    //Coroutines
+    def coroutines_ver = '1.3.7'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_ver"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_ver"
+
+    //LeakCanary
+    def leekCanary_ver = '2.4'
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leekCanary_ver"
+    implementation "com.squareup.leakcanary:leakcanary-object-watcher-android:$leekCanary_ver"
+
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    kapt 'com.android.databinding:compiler:3.1.4'
+
+    //Junit test
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:2.28.2"
+
+    //Instrumental test
+    androidTestImplementation 'androidx.test:core:1.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation "android.arch.persistence.room:testing:1.1.1"
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+
+    // Assertions
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
+    androidTestImplementation 'com.google.truth:truth:0.42'
+
+    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
+
+    // Espresso dependencies
+    def espresso_core_ver = '3.2.0'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_ver"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_core_ver"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_core_ver"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espresso_core_ver"
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$espresso_core_ver"
+    androidTestImplementation "androidx.test.espresso:espresso-accessibility:$espresso_core_ver"
+    androidTestImplementation "androidx.test.espresso:espresso-web:$espresso_core_ver"
+
+
+}
