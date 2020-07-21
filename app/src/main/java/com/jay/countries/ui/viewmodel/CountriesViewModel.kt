@@ -29,10 +29,10 @@ class CountriesViewModel : BaseViewModel() {
             .subscribeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { response: Response<FindCountriesOfAContinentQuery.Data> ->
-                    countriesObserver.setValue(ResponseWrapper(response))
+                    countriesObserver.postValue(ResponseWrapper(response))
                 },
 
-                { error: Throwable -> countriesObserver.setValue(ResponseWrapper(error = error)) },
+                { error: Throwable -> countriesObserver.postValue(ResponseWrapper(error = error)) },
 
                 { progressbarVisibility.set(View.GONE)})
 

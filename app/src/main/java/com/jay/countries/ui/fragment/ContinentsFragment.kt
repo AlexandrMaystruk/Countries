@@ -1,10 +1,14 @@
 package com.jay.countries.ui.fragment
 
+import GetContinentsQuery
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.api.Response
@@ -16,7 +20,8 @@ import com.jay.countries.ui.viewmodel.ContinentsViewModel
 import kotlinx.android.synthetic.main.continents_fragment.*
 import javax.inject.Inject
 
-class ContinentsFragment : Fragment() {
+
+class ContinentsFragment : BaseFragment() {
 
     @Inject
     lateinit var continentsVM: ContinentsViewModel
@@ -36,17 +41,23 @@ class ContinentsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         continentsVM.fetchContinentsList()
-        observeContinentsList()
+
         setupContinentsList()
+
+        observeContinentsList()
         observeContinentsListItemClick()
     }
 
     private fun observeContinentsList() {
         continentsVM.continentsObserver.observe(viewLifecycleOwner,
-            Observer {data: ResponseWrapper<Response<GetContinentsQuery.Data>> ->
+            Observer { data: ResponseWrapper<Response<GetContinentsQuery.Data>> ->
 
-            data.response?.data?.continents()?.let { continentsAdapter.setData(it) }
-        })
+                if (data.error != null) {
+                    Toast.makeText(activity, data.error?.message, LENGTH_LONG).show()
+                } else {
+                    data.response?.data?.continents()?.let { continentsAdapter.setData(it) }
+                }
+            })
     }
 
     private fun setupContinentsList() {
@@ -61,8 +72,8 @@ class ContinentsFragment : Fragment() {
         continentsAdapter.clickObserver.observe(viewLifecycleOwner,
             Observer { data: GetContinentsQuery.Continent ->
 
-                continentsVM.dataObserver.setValue(data)
-        })
+                continentDataObserver.value = data
+            })
     }
 
     companion object {

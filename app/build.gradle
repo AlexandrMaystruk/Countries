@@ -81,7 +81,7 @@ android {
                             file("src/main/res/layouts/").listFiles(),
                             'src/main/res/layouts/activities',
                             'src/main/res/layouts/fragments',
-                            'src/main/res/layouts/views',
+                            'src/main/res/layouts/common',
                             'src/main/res'
                     ]
         }

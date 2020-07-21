@@ -11,6 +11,6 @@
         android:id="@+id/continents_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/view_continent" />
+        tools:listitem="@layout/layout_continent" />
 
 </FrameLayout>

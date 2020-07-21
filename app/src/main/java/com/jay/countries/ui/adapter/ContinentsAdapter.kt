@@ -5,19 +5,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jay.countries.R
+import com.jay.countries.util.diffutil.BaseDiffUtil
+import com.jay.countries.util.diffutil.ContinentsDiffUtil
 
 class ContinentsAdapter: RecyclerView.Adapter<BaseViewHolder<GetContinentsQuery.Continent>>() {
 
     val clickObserver = MutableLiveData<GetContinentsQuery.Continent>()
     private val continentsDataList: MutableList<GetContinentsQuery.Continent> = mutableListOf()
+    private val diffUtil : BaseDiffUtil<GetContinentsQuery.Continent> = ContinentsDiffUtil()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             BaseViewHolder<GetContinentsQuery.Continent> {
 
         val view: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.view_continent, parent, false)
+            .inflate(R.layout.layout_continent, parent, false)
 
         return ViewHolder(view)
     }
@@ -33,8 +37,9 @@ class ContinentsAdapter: RecyclerView.Adapter<BaseViewHolder<GetContinentsQuery.
     override fun getItemViewType(position: Int): Int = position
 
     fun setData(data: MutableList<GetContinentsQuery.Continent?>) {
+        diffUtil.setData(oldList = continentsDataList, newList = data.filterNotNull())
         continentsDataList.apply { clear(); addAll(data.filterNotNull()) }
-        notifyDataSetChanged()
+        DiffUtil.calculateDiff(diffUtil, true).dispatchUpdatesTo(this)
     }
 
     inner class ViewHolder(itemView: View) : BaseViewHolder<GetContinentsQuery.Continent>(itemView) {
@@ -52,8 +57,8 @@ class ContinentsAdapter: RecyclerView.Adapter<BaseViewHolder<GetContinentsQuery.
 
         private fun clickHandler(item: GetContinentsQuery.Continent) {
             rootView.setOnClickListener {
-                clickObserver.setValue(item)
-
+                clickObserver.value = item
+                
             }
         }
     }
