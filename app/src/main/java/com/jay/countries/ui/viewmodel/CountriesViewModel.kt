@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.apollographql.apollo.api.Response
 import com.jay.countries.model.CountryMapper
 import com.jay.countries.model.ResponseWrapper
-import com.jay.countries.repository.database.countries.Country
+import com.jay.countries.model.Country
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers

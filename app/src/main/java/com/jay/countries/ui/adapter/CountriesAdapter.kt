@@ -4,19 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.RecyclerView
 import com.jay.countries.R
-import com.jay.countries.repository.database.countries.Country
-import com.jay.countries.repository.database.countries.CountriesDatabaseManager
+import com.jay.countries.model.Country
 
 open class CountriesAdapter : RecyclerView.Adapter<BaseViewHolder<Country>>(), LifecycleObserver {
 
     private val countryList: MutableList<Country> = mutableListOf()
-//    private val countriesDbManager = CountriesDatabaseManager.instance
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Country> {
         val view: View = LayoutInflater.from(parent.context)
@@ -43,43 +38,16 @@ open class CountriesAdapter : RecyclerView.Adapter<BaseViewHolder<Country>>(), L
     inner class ViewHolder(itemView: View) :
         BaseViewHolder<Country>(itemView) {
 
-        private var isLiked = false
         private val countryName: TextView = itemView.findViewById(R.id.country_name)
-//        private val likeBtn: AppCompatImageButton = itemView.findViewById(R.id.like_btn)
+        private val native: TextView = itemView.findViewById(R.id.native_lang)
+        private val phone: TextView = itemView.findViewById(R.id.phone_code)
+        private val currency: TextView = itemView.findViewById(R.id.currency_code)
 
         override fun bind(item: Country) {
             countryName.text = item.name
-
-//            if (isLiked) {
-//                setLikedButtonDrawable(R.drawable.ic_heart_red)
-//            }
-//
-//            onLikeButtonClick(item)
+            native.text = item.native
+            phone.text = item.phone
+            currency.text = item.currency
         }
-
-//        private fun onLikeButtonClick(item: Country) {
-//            likeBtn.setOnClickListener {
-//
-//                if (!isLiked) {
-//                    setLikedButtonDrawable(R.drawable.ic_heart_red)
-//                    countriesDbManager.saveToDatabase(item)
-//
-//                } else {
-//                    setLikedButtonDrawable(R.drawable.ic_heart)
-//                    item.name?.let { name -> countriesDbManager.removeFromDatabaseByName(name) }
-//                }
-//
-//                isLiked = !isLiked
-//            }
-//        }
-
-//        private fun setLikedButtonDrawable(resId: Int) {
-//            likeBtn.setImageDrawable(itemView.context.resources.getDrawable(resId))
-//        }
-
-//        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-//        fun onDestroy() {
-//            countriesDbManager.clearResources()
-//        }
     }
 }

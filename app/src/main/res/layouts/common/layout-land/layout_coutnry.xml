@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/x2"
+    android:layout_margin="@dimen/x2"
     android:orientation="vertical">
 
     <include
@@ -12,7 +12,6 @@
         layout="@layout/layout_country_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/x"
-        android:layout_marginBottom="@dimen/x2" />
+        android:layout_marginTop="@dimen/x" />
 
 </LinearLayout>

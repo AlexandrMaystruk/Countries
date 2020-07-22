@@ -14,7 +14,7 @@ import com.jay.countries.R
 import com.jay.countries.databinding.CountriesFragmentBinding
 import com.jay.countries.di.viewmodel.DaggerViewModelComponent
 import com.jay.countries.model.ResponseWrapper
-import com.jay.countries.repository.database.countries.Country
+import com.jay.countries.model.Country
 import com.jay.countries.ui.adapter.CountriesAdapter
 import com.jay.countries.ui.viewmodel.CountriesViewModel
 import kotlinx.android.synthetic.main.countries_fragment.*
