@@ -4,7 +4,7 @@
     <data>
         <variable
             name="countriesVM"
-            type="com.jay.countries.ui.viewmodel.CountriesViewModel" />
+            type="com.jay.countries.ui.viewmodel.LikedCountriesViewModel" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,14 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/x2"
+        android:background="@color/gray_100"
         tools:context=".ui.fragment.CountriesFragment">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="@{countriesVM.chooseContinentHintVisibility}"
-            android:text="@string/choose_a_continent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/countries_list"
@@ -27,11 +21,12 @@
             android:layout_height="wrap_content"
             tools:listitem="@layout/layout_country_name" />
 
-        <ProgressBar
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{countriesVM.progressbarVisibility}"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:visibility="@{countriesVM.listIsEmptyHintVisibility}"
+            android:text="@string/list_is_empty" />
 
     </FrameLayout>
 

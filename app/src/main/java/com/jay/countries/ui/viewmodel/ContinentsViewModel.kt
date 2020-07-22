@@ -30,13 +30,9 @@ class ContinentsViewModel : BaseViewModel() {
                     continentsObserver.postValue(ResponseWrapper(response))
                 },
 
-                { error: Throwable ->
-                    continentsObserver.postValue(ResponseWrapper(error = error))
-                },
+                { error: Throwable -> continentsObserver.postValue(ResponseWrapper(error = error)) },
 
-                {
-                    progressbarVisibility.set(View.GONE)
-                })
+                { progressbarVisibility.set(View.GONE) })
 
         disposable.add(subscribe)
     }

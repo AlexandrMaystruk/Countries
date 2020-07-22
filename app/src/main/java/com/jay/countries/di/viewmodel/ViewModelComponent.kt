@@ -3,6 +3,7 @@ package com.jay.countries.di.viewmodel
 import androidx.fragment.app.FragmentActivity
 import com.jay.countries.ui.fragment.ContinentsFragment
 import com.jay.countries.ui.fragment.CountriesFragment
+import com.jay.countries.ui.fragment.LikedCountriesFragment
 import dagger.BindsInstance
 import dagger.Component
 
@@ -18,4 +19,5 @@ interface ViewModelComponent {
 
     fun inject(continentsFragment: ContinentsFragment)
     fun inject(countriesFragment: CountriesFragment)
+    fun inject(likedCountriesFragment: LikedCountriesFragment)
 }

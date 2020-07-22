@@ -6,8 +6,9 @@ import androidx.lifecycle.MutableLiveData
 abstract class BaseFragment : Fragment() {
 
     companion object {
-         val continentDataObserver: MutableLiveData<GetContinentsQuery.Continent> = MutableLiveData()
+        val continentDataObserver: MutableLiveData<GetContinentsQuery.Continent> = MutableLiveData()
     }
+
 
 }
 

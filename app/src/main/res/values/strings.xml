@@ -3,4 +3,8 @@
     <string name="native_nag">native</string>
     <string name="phone">phone</string>
     <string name="currency">currency</string>
+    <string name="all">all</string>
+    <string name="liked">liked</string>
+    <string name="choose_a_continent">choose a continent</string>
+    <string name="list_is_empty">list is empty</string>
 </resources>
