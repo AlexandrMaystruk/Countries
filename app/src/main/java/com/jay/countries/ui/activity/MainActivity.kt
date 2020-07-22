@@ -5,7 +5,10 @@ import com.jay.countries.R
 import com.jay.countries.ui.fragment.ContinentsFragment
 import com.jay.countries.ui.fragment.CountriesFragment
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity()  {
+
+    private val continentsFragment = ContinentsFragment.newInstance()
+    private val countriesFragment = CountriesFragment.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,11 +19,11 @@ class MainActivity : BaseActivity() {
 
     private fun attachFragments() {
         supportFragmentManager.beginTransaction()
-            .add(R.id.left_main_container, ContinentsFragment.newInstance())
+            .add(R.id.container_1, continentsFragment)
             .commit()
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.right_main_container, CountriesFragment.newInstance())
+            .add(R.id.container_2, countriesFragment)
             .commit()
     }
 }

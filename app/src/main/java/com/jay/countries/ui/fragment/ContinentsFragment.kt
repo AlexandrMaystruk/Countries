@@ -1,18 +1,18 @@
 package com.jay.countries.ui.fragment
 
 import GetContinentsQuery
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.api.Response
 import com.jay.countries.R
+import com.jay.countries.databinding.ContinentsFragmentBinding
 import com.jay.countries.di.viewmodel.DaggerViewModelComponent
 import com.jay.countries.model.ResponseWrapper
 import com.jay.countries.ui.adapter.ContinentsAdapter
@@ -33,11 +33,16 @@ class ContinentsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.continents_fragment, container, false)
+        DaggerViewModelComponent.builder().activity(activity!!).build().inject(this)
+
+        val binding: ContinentsFragmentBinding =
+            DataBindingUtil.inflate(inflater, R.layout.continents_fragment, container, false)
+        binding.continentVM = continentsVM
+
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        DaggerViewModelComponent.builder().activity(activity!!).build().inject(this)
         super.onActivityCreated(savedInstanceState)
 
         continentsVM.fetchContinentsList()
